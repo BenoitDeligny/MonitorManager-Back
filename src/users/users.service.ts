@@ -8,13 +8,15 @@ export class UsersService {
   private readonly users: User[] = [
     {
       id: 1,
-      username: 'john',
+      firstname: 'john',
+      lastname: 'Carpenter',
       password: 'changeme',
       email: 'john@gmail.com',
     },
     {
       id: 2,
-      username: 'maria',
+      firstname: 'maria',
+      lastname: 'Deja',
       password: 'guess',
       email: 'maria@hotmail.com',
     },
@@ -31,8 +33,8 @@ export class UsersService {
   /* findOne(id: number) {
     return `This action returns a #${id} user`;
   } */
-  async findOne(username: string): Promise<User | undefined> {
-    return this.users.find(user => user.username === username);
+  async findOne(email: string): Promise<User | undefined> {
+    return this.users.find(user => user.email === email);
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
