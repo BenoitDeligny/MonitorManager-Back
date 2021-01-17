@@ -23,8 +23,10 @@ export class UsersService {
   }
 
   async findOne(email: string): Promise<User | undefined> {
-    return this.usersRepository.findOne(email);
+    return this.usersRepository.findOne({ email });
   }
+
+  //! miss update
 
   async remove(id: number): Promise<void> {
     await this.usersRepository.delete(id);
