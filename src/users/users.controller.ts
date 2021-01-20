@@ -26,10 +26,13 @@ export class UsersController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.usersService.findOne(id);
+    return this.usersService.findOneById(id);
   }
 
-  // ! miss update
+  @Put()
+  updateUser(@Body() user: User) {
+    return this.usersService.updateUser(user);
+  }
 
   @Delete(':id')
   remove(@Param('id') id: number) {
