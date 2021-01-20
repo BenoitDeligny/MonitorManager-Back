@@ -1,4 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from 'src/users/entities/user.entity';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Monitor } from '../monitors/monitor.entity';
 
 @Entity()
 export class Customer {
@@ -7,4 +15,16 @@ export class Customer {
 
   @Column()
   customerName: string;
+
+  @ManyToOne(
+    () => User,
+    commercial => commercial.customers,
+  )
+  commercial: User;
+
+  @OneToMany(
+    () => Monitor,
+    monitor => monitor.owner,
+  )
+  monitors: Monitor[];
 }
