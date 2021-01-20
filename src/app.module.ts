@@ -10,6 +10,7 @@ import { Customer } from './shared/entities/customers/customer.entity';
 import { Monitor } from './shared/entities/monitors/monitor.entity';
 import { SoftwareVersion } from './shared/entities/softwareVersions/software-version.entity';
 import { MonitorVersion } from './shared/entities/monitorVersions/monitor-version.entity';
+import { Role } from './shared/entities/roles/role.entity';
 
 @Module({
   imports: [
@@ -21,7 +22,14 @@ import { MonitorVersion } from './shared/entities/monitorVersions/monitor-versio
       password: databaseVariables.password,
       database: 'monitorManager',
       timezone: 'local',
-      entities: [User, Customer, Monitor, SoftwareVersion, MonitorVersion],
+      entities: [
+        User,
+        Customer,
+        Monitor,
+        SoftwareVersion,
+        MonitorVersion,
+        Role,
+      ],
       synchronize: true, // TODO passer en 'false' lors de la mise en production
     }),
     AuthModule,
