@@ -22,6 +22,10 @@ export class UsersService {
     return this.usersRepository.findOne(id);
   }
 
+  async findOneByAlias(alias: string): Promise<User> {
+    return this.usersRepository.findOne({ alias });
+  }
+
   async findOne(email: string): Promise<User | undefined> {
     return this.usersRepository.findOne({ email });
   }

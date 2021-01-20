@@ -24,9 +24,14 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
+  @Get('id/:id')
+  findOneById(@Param('id') id: string) {
     return this.usersService.findOneById(id);
+  }
+
+  @Get('alias/:alias')
+  findOneByAlias(@Param('alias') alias: string) {
+    return this.usersService.findOneByAlias(alias);
   }
 
   @Put()
