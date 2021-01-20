@@ -1,4 +1,12 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Customer } from 'src/shared/entities/customers/customer.entity';
+import { Role } from 'src/shared/entities/roles/role.entity';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  ManyToOne,
+} from 'typeorm';
 
 @Entity()
 export class User {
@@ -20,6 +28,15 @@ export class User {
   @Column()
   password: string;
 
-  @Column()
-  role: string;
+  @ManyToOne(
+    () => Role,
+    role => role.users,
+  )
+  role: Role;
+
+  @OneToMany(
+    () => Customer,
+    customer => customer.commercial,
+  )
+  customers: Customer[];
 }
