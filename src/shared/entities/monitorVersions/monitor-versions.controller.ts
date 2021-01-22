@@ -7,7 +7,6 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { version } from 'prettier';
 import { MonitorVersion } from './monitor-version.entity';
 import { MonitorVersionsService } from './monitor-versions.service';
 
