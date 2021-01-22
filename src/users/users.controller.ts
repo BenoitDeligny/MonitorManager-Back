@@ -24,12 +24,20 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(id);
+  @Get('id/:id')
+  findOneById(@Param('id') id: string) {
+    return this.usersService.findOneById(id);
   }
 
-  // ! miss update
+  @Get('alias/:alias')
+  findOneByAlias(@Param('alias') alias: string) {
+    return this.usersService.findOneByAlias(alias);
+  }
+
+  @Put()
+  updateUser(@Body() user: User) {
+    return this.usersService.updateUser(user);
+  }
 
   @Delete(':id')
   remove(@Param('id') id: number) {

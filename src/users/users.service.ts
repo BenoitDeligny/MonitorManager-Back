@@ -22,11 +22,17 @@ export class UsersService {
     return this.usersRepository.findOne(id);
   }
 
+  async findOneByAlias(alias: string): Promise<User> {
+    return this.usersRepository.findOne({ alias });
+  }
+
   async findOne(email: string): Promise<User | undefined> {
     return this.usersRepository.findOne({ email });
   }
 
-  //! miss update
+  async updateUser(user: User): Promise<User> {
+    return this.usersRepository.save(user);
+  }
 
   async remove(id: number): Promise<void> {
     await this.usersRepository.delete(id);

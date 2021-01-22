@@ -6,6 +6,11 @@ import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { databaseVariables } from './auth/constants';
 import { User } from './users/entities/user.entity';
+import { Customer } from './shared/entities/customers/customer.entity';
+import { Monitor } from './shared/entities/monitors/monitor.entity';
+import { SoftwareVersion } from './shared/entities/softwareVersions/software-version.entity';
+import { MonitorVersion } from './shared/entities/monitorVersions/monitor-version.entity';
+import { Role } from './shared/entities/roles/role.entity';
 
 @Module({
   imports: [
@@ -17,8 +22,15 @@ import { User } from './users/entities/user.entity';
       password: databaseVariables.password,
       database: 'monitorManager',
       timezone: 'local',
-      entities: [User],
-      synchronize: false, // TODO passer en 'false' lors de la mise en production
+      entities: [
+        User,
+        Customer,
+        Monitor,
+        SoftwareVersion,
+        MonitorVersion,
+        Role,
+      ],
+      synchronize: true, // TODO passer en 'false' lors de la mise en production
     }),
     AuthModule,
     UsersModule,
