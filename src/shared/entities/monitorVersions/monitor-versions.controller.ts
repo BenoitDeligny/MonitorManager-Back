@@ -10,7 +10,7 @@ import {
 import { MonitorVersion } from './monitor-version.entity';
 import { MonitorVersionsService } from './monitor-versions.service';
 
-@Controller('monitor-version')
+@Controller('monitor-versions')
 export class MonitorVersionsController {
   constructor(private monitorVersionsService: MonitorVersionsService) {}
 

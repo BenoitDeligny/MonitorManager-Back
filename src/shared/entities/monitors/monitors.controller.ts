@@ -10,8 +10,8 @@ import {
 import { Monitor } from './monitor.entity';
 import { MonitorsService } from './monitors.service';
 
-@Controller('monitor')
-export class MonitorController {
+@Controller('monitors')
+export class MonitorsController {
   constructor(private monitorsService: MonitorsService) {}
 
   @Post()

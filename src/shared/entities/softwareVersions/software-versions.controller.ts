@@ -10,8 +10,8 @@ import {
 import { SoftwareVersion } from './software-version.entity';
 import { SoftwareVersionsService } from './software-versions.service';
 
-@Controller('software-version')
-export class SoftwareVersionController {
+@Controller('software-versions')
+export class SoftwareVersionsController {
   constructor(private softwareVersionsService: SoftwareVersionsService) {}
 
   @Post()
