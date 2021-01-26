@@ -1,8 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { throwError } from 'rxjs';
+import { RolesService } from 'src/shared/entities/roles/roles.service';
 
 @Injectable()
 export class UsersService {
@@ -11,11 +13,21 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    private roleService: RolesService,
   ) {}
 
   async createUser(user: User): Promise<User> {
-    //user.password = await bcrypt.hash(user.password, this.saltOrRound);
-    return this.usersRepository.save(user);
+    if (await this.findOne(user.email)) {
+      throw new HttpException(
+        'This email already exist !',
+        HttpStatus.CONFLICT,
+      );
+    } else {
+      const basicRole = await this.roleService.findById(3);
+      user.role = basicRole;
+      //user.password = await bcrypt.hash(user.password, this.saltOrRound);
+      return this.usersRepository.save(user);
+    }
   }
 
   findAll(): Promise<User[]> {

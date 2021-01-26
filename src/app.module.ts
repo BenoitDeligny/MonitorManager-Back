@@ -68,5 +68,6 @@ import { MonitorVersionsController } from './shared/entities/monitorVersions/mon
     MonitorVersionsService,
     SoftwareVersionsService,
   ],
+  exports: [RolesService],
 })
 export class AppModule {}
