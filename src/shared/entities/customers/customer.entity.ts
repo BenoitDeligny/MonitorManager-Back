@@ -16,6 +16,12 @@ export class Customer {
   @Column()
   customerName: string;
 
+  @Column()
+  address: string;
+
+  @Column()
+  department: number;
+
   @ManyToOne(
     () => User,
     commercial => commercial.customers,

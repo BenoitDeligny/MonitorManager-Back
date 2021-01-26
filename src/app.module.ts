@@ -11,9 +11,26 @@ import { Monitor } from './shared/entities/monitors/monitor.entity';
 import { SoftwareVersion } from './shared/entities/softwareVersions/software-version.entity';
 import { MonitorVersion } from './shared/entities/monitorVersions/monitor-version.entity';
 import { Role } from './shared/entities/roles/role.entity';
+import { CustomersController } from './shared/entities/customers/customers.controller';
+import { CustomersService } from './shared/entities/customers/customers.service';
+import { RolesController } from './shared/entities/roles/roles.controller';
+import { RolesService } from './shared/entities/roles/roles.service';
+import { MonitorVersionsService } from './shared/entities/monitorVersions/monitor-versions.service';
+import { SoftwareVersionsController } from './shared/entities/softwareVersions/software-versions.controller';
+import { SoftwareVersionsService } from './shared/entities/softwareVersions/software-versions.service';
+import { MonitorsController } from './shared/entities/monitors/monitors.controller';
+import { MonitorsService } from './shared/entities/monitors/monitors.service';
+import { MonitorVersionsController } from './shared/entities/monitorVersions/monitor-versions.controller';
 
 @Module({
   imports: [
+    TypeOrmModule.forFeature([
+      Customer,
+      Monitor,
+      Role,
+      SoftwareVersion,
+      MonitorVersion,
+    ]),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -35,7 +52,21 @@ import { Role } from './shared/entities/roles/role.entity';
     AuthModule,
     UsersModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [
+    AppController,
+    CustomersController,
+    RolesController,
+    MonitorsController,
+    MonitorVersionsController,
+    SoftwareVersionsController,
+  ],
+  providers: [
+    AppService,
+    CustomersService,
+    RolesService,
+    MonitorsService,
+    MonitorVersionsService,
+    SoftwareVersionsService,
+  ],
 })
 export class AppModule {}
