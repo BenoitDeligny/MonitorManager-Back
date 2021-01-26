@@ -11,17 +11,17 @@ export class Monitor {
   @Column()
   reference: string;
 
-  @Column({ type: 'date' })
-  deliveryDate?: Date;
+  @Column({ type: 'date', nullable: true })
+  deliveryDate: Date;
 
-  @Column({ type: 'date' })
-  startingDate?: Date;
+  @Column({ type: 'date', nullable: true })
+  startingDate: Date;
 
-  @Column({ type: 'date' })
-  exchangeDate?: Date;
+  @Column({ type: 'date', nullable: true })
+  exchangeDate: Date;
 
-  @Column()
-  disposal?: string;
+  @Column({ nullable: true })
+  disposal: string;
 
   @ManyToOne(
     () => MonitorVersion,

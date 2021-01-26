@@ -16,27 +16,33 @@ export class User {
   @Column()
   firstname: string;
 
-  @Column()
+  @Column({ nullable: false })
   lastname: string;
 
-  @Column()
+  @Column({ unique: true, nullable: false })
   email: string;
 
   @Column()
   alias: string;
 
-  @Column()
+  @Column({ nullable: false })
   password: string;
 
   @ManyToOne(
     () => Role,
     role => role.users,
+    {
+      eager: true,
+    },
   )
   role: Role;
 
   @OneToMany(
     () => Customer,
     customer => customer.commercial,
+    {
+      eager: true,
+    },
   )
   customers: Customer[];
 }

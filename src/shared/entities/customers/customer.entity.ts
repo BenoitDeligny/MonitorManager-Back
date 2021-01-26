@@ -13,13 +13,13 @@ export class Customer {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ nullable: false })
   customerName: string;
 
-  @Column()
+  @Column({ nullable: false })
   address: string;
 
-  @Column()
+  @Column({ nullable: false })
   department: number;
 
   @ManyToOne(

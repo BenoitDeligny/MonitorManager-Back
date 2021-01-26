@@ -6,7 +6,7 @@ export class MonitorVersion {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ nullable: false })
   version: string;
 
   @OneToMany(
