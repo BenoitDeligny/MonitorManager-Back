@@ -6,10 +6,12 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { MonitorVersion } from './monitor-version.entity';
 import { MonitorVersionsService } from './monitor-versions.service';
-
+@UseGuards(JwtAuthGuard)
 @Controller('monitor-versions')
 export class MonitorVersionsController {
   constructor(private monitorVersionsService: MonitorVersionsService) {}
