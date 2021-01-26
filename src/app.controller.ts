@@ -7,10 +7,10 @@ import { LocalAuthGuard } from './auth/local-auth.guard';
 export class AppController {
   constructor(private authService: AuthService) {}
 
-  @UseGuards(LocalAuthGuard)
+  // ! Mise en place du @UseGuards(LocalAuthGuard) à titre d'exemple pour l'interdiction d'une route
   @Post('auth/login')
   async login(@Request() req) {
-    return this.authService.login(req.user);
+    return this.authService.login(req.body);
   }
 
   @UseGuards(JwtAuthGuard)
