@@ -39,6 +39,7 @@ import { MonitorVersionsController } from './shared/entities/monitorVersions/mon
       password: databaseVariables.password,
       database: 'monitorManager',
       timezone: 'local',
+      //logging: true,
       entities: [
         User,
         Customer,
