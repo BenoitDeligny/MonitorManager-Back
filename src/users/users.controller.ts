@@ -6,11 +6,13 @@ import {
   Put,
   Param,
   Delete,
+  Request,
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
+
 @UseGuards(JwtAuthGuard)
 @Controller('users')
 export class UsersController {
@@ -34,6 +36,11 @@ export class UsersController {
   @Get('alias/:alias')
   findOneByAlias(@Param('alias') alias: string) {
     return this.usersService.findOneByAlias(alias);
+  }
+
+  @Get('profile')
+  getProfile(@Request() req) {
+    return req.user;
   }
 
   @Put()

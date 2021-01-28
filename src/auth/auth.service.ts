@@ -9,13 +9,13 @@ export class AuthService {
   private saltOrRound = 10;
 
   constructor(
-    private userService: UsersService,
+    private usersService: UsersService,
     private jwtService: JwtService,
   ) {}
 
   async validateUser(email: string, password: string): Promise<any> {
-    const user = await this.userService.findOne(email);
-    if (user && user.password === password) {
+    const user = await this.usersService.findOne(email);
+    if (user && (await bcrypt.compare(password, user.password))) {
       const { password, ...result } = user;
       return result;
     } else {

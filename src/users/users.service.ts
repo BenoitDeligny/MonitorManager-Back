@@ -3,7 +3,6 @@ import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { throwError } from 'rxjs';
 import { RolesService } from 'src/shared/entities/roles/roles.service';
 
 @Injectable()
@@ -25,7 +24,8 @@ export class UsersService {
     } else {
       const basicRole = await this.roleService.findById(3);
       user.role = basicRole;
-      //user.password = await bcrypt.hash(user.password, this.saltOrRound);
+
+      user.password = await bcrypt.hash(user.password, this.saltOrRound);
       return this.usersRepository.save(user);
     }
   }
