@@ -36,7 +36,7 @@ export class AuthService {
 
     if ((await this.validateUser(user.email, user.password)) !== null) {
       const access_token = this.jwtService.sign(payload);
-      this.usersService.tempToken = access_token;
+
       return { access_token };
     } else {
       throw new HttpException('Bad credentials', HttpStatus.UNAUTHORIZED);

@@ -4,18 +4,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { RolesService } from 'src/shared/entities/roles/roles.service';
-import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UsersService {
   private saltOrRound = 10;
-  public tempToken = '';
 
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
     private roleService: RolesService,
-    private readonly jwtService: JwtService,
   ) {}
 
   async createUser(user: User): Promise<User> {
