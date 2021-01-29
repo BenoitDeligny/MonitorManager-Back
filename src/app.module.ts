@@ -23,6 +23,7 @@ import { MonitorsService } from './shared/entities/monitors/monitors.service';
 import { MonitorVersionsController } from './shared/entities/monitorVersions/monitor-versions.controller';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { GlobalInterceptor } from './shared/interceptors/global.interceptor';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -54,6 +55,7 @@ import { GlobalInterceptor } from './shared/interceptors/global.interceptor';
     }),
     AuthModule,
     UsersModule,
+    JwtModule.register({}),
   ],
   controllers: [
     AppController,

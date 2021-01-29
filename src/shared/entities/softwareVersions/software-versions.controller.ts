@@ -9,9 +9,10 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { RoleGuard } from 'src/shared/guards/role.guard';
 import { SoftwareVersion } from './software-version.entity';
 import { SoftwareVersionsService } from './software-versions.service';
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RoleGuard)
 @Controller('software-versions')
 export class SoftwareVersionsController {
   constructor(private softwareVersionsService: SoftwareVersionsService) {}

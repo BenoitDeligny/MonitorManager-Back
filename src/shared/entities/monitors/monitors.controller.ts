@@ -9,6 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { RoleGuard } from 'src/shared/guards/role.guard';
 import { Monitor } from './monitor.entity';
 import { MonitorsService } from './monitors.service';
 @UseGuards(JwtAuthGuard)
@@ -26,11 +27,13 @@ export class MonitorsController {
     return this.monitorsService.findAll();
   }
 
+  @UseGuards(RoleGuard)
   @Put()
   updateMonitor(@Body() monitor: Monitor) {
     return this.monitorsService.updateMonitor(monitor);
   }
 
+  @UseGuards(RoleGuard)
   @Delete(':id')
   removeMonitor(@Param('id') id: number) {
     return this.monitorsService.removeMonitor(id);

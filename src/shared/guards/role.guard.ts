@@ -1,4 +1,10 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Observable } from 'rxjs';
 
@@ -14,7 +20,7 @@ export class RoleGuard implements CanActivate {
     if (decryptToken['role']['name'] === 'Admin') {
       return true;
     } else {
-      return false;
+      throw new HttpException('Not allowed to you !', HttpStatus.UNAUTHORIZED);
     }
   }
 }

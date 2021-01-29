@@ -9,9 +9,10 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { RoleGuard } from 'src/shared/guards/role.guard';
 import { MonitorVersion } from './monitor-version.entity';
 import { MonitorVersionsService } from './monitor-versions.service';
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RoleGuard)
 @Controller('monitor-versions')
 export class MonitorVersionsController {
   constructor(private monitorVersionsService: MonitorVersionsService) {}

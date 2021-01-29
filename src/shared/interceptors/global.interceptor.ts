@@ -13,7 +13,6 @@ export class GlobalInterceptor implements NestInterceptor {
     return next.handle().pipe(
       tap(() => {
         const req = context.switchToHttp().getRequest();
-        console.log(req.headers.authorization);
       }),
     );
   }
