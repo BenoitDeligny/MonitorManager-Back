@@ -6,8 +6,6 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
-  private saltOrRound = 10;
-
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
@@ -15,6 +13,7 @@ export class AuthService {
 
   async validateUser(email: string, password: string): Promise<any> {
     const user = await this.usersService.findOne(email);
+
     if (user && (await bcrypt.compare(password, user.password))) {
       const { password, ...result } = user;
       return result;
@@ -36,9 +35,9 @@ export class AuthService {
     };
 
     if ((await this.validateUser(user.email, user.password)) !== null) {
-      return {
-        access_token: this.jwtService.sign(payload),
-      };
+      const access_token = this.jwtService.sign(payload);
+      this.usersService.tempToken = access_token;
+      return { access_token };
     } else {
       throw new HttpException('Bad credentials', HttpStatus.UNAUTHORIZED);
     }
