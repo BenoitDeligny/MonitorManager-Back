@@ -21,6 +21,8 @@ import { SoftwareVersionsService } from './shared/entities/softwareVersions/soft
 import { MonitorsController } from './shared/entities/monitors/monitors.controller';
 import { MonitorsService } from './shared/entities/monitors/monitors.service';
 import { MonitorVersionsController } from './shared/entities/monitorVersions/monitor-versions.controller';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { GlobalInterceptor } from './shared/interceptors/global.interceptor';
 
 @Module({
   imports: [
@@ -68,6 +70,10 @@ import { MonitorVersionsController } from './shared/entities/monitorVersions/mon
     MonitorsService,
     MonitorVersionsService,
     SoftwareVersionsService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: GlobalInterceptor,
+    },
   ],
   exports: [RolesService],
 })
