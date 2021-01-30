@@ -26,9 +26,9 @@ export class UsersController {
     return this.usersService.createUser(user);
   }
 
-  @Get('forgetPassword')
-  forgetPassword(@Request() req) {
-    return this.usersService.sendNewPassword(req);
+  @Post('forgetPassword')
+  async forgetPassword(@Body() email: string) {
+    return this.usersService.sendNewPassword(email);
   }
 
   @UseGuards(JwtAuthGuard)

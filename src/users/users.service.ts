@@ -43,7 +43,7 @@ export class UsersService {
   }
 
   async findOneByAlias(alias: string): Promise<User> {
-    return this.usersRepository.findOne({ alias });
+    return this.usersRepository.findOne(alias);
   }
 
   async findOne(email: string): Promise<User | undefined> {
@@ -66,13 +66,13 @@ export class UsersService {
       from: 'delignyb.pro@gmail.com', // TODO changer pour l'adresse du client lors de la mise en prod
       subject: 'MonitorManager: Your account',
       text: 'Your new account to MonitorManager',
-      html: `<b>welcome,</b><p>Here is your login:${user.email}</p><p>Here is your password:${user.password}</p><p>Don't forget to change it soon ;)</p><p>Admin<p>`,
+      html: `<b>welcome,</b><p>Here is your login: ${user.email}</p><p>Here is your password: ${user.password}</p><p>Don't forget to change it soon ;)</p><p>Admin<p>`,
     });
     return user.password;
   }
 
-  async sendNewPassword(request) {
-    const user = await this.decryptToken(request);
+  async sendNewPassword(email: string) {
+    const user = await this.findOneByAlias(email);
     const newPassword = this.createRandomPassword();
     user.password = newPassword;
     this.mailerService
@@ -81,7 +81,7 @@ export class UsersService {
         from: 'delignyb.pro@gmail.com', // TODO changer pour l'adresse du client lors de la mise en prod
         subject: 'MonitorManager: Your password',
         text: 'Forget Password',
-        html: `<b>welcome,</b><p>Here is your new password:${newPassword}</p><p>Don't forget to change it soon ;)</p><p>Admin<p>`,
+        html: `<b>welcome,</b><p>Here is your new password: ${newPassword}</p><p>Don't forget to change it soon ;)</p><p>Admin<p>`,
       })
       .then(res => {
         console.log(res);
@@ -92,12 +92,13 @@ export class UsersService {
       });
   }
 
-  async decryptToken(request): Promise<any> {
+  //const user = await this.decryptToken(request);
+  /* async decryptToken(request): Promise<any> {
     const header = request.headers.authorization;
     const userToken = header.slice(7);
     const currentUser = this.jwtService.decode(userToken);
     return currentUser;
-  }
+  } */
 
   createRandomPassword(): string {
     let randomPassword = '';
