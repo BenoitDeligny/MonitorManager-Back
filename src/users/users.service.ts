@@ -4,6 +4,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { RolesService } from 'src/shared/entities/roles/roles.service';
+import { JwtService } from '@nestjs/jwt';
+import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable()
 export class UsersService {
@@ -13,6 +15,8 @@ export class UsersService {
     @InjectRepository(User)
     private usersRepository: Repository<User>,
     private roleService: RolesService,
+    private jwtService: JwtService,
+    private readonly mailerService: MailerService,
   ) {}
 
   async createUser(user: User): Promise<User> {
@@ -47,10 +51,61 @@ export class UsersService {
   }
 
   async updateUser(user: User): Promise<User> {
+    user.password = await bcrypt.hash(user.password, this.saltOrRound);
     return this.usersRepository.save(user);
   }
 
   async remove(id: number): Promise<void> {
     await this.usersRepository.delete(id);
+  }
+
+  async initializePassword(user: User): Promise<string> {
+    user.password = this.createRandomPassword();
+    this.mailerService.sendMail({
+      to: user.email,
+      from: 'delignyb.pro@gmail.com', // TODO changer pour l'adresse du client lors de la mise en prod
+      subject: 'MonitorManager: Your account',
+      text: 'Your new account to MonitorManager',
+      html: `<b>welcome,</b><p>Here is your login:${user.email}</p><p>Here is your password:${user.password}</p><p>Don't forget to change it soon ;)</p><p>Admin<p>`,
+    });
+    return user.password;
+  }
+
+  async sendNewPassword(request) {
+    const user = await this.decryptToken(request);
+    const newPassword = this.createRandomPassword();
+    user.password = newPassword;
+    this.mailerService
+      .sendMail({
+        to: user.email,
+        from: 'delignyb.pro@gmail.com', // TODO changer pour l'adresse du client lors de la mise en prod
+        subject: 'MonitorManager: Your password',
+        text: 'Forget Password',
+        html: `<b>welcome,</b><p>Here is your new password:${newPassword}</p><p>Don't forget to change it soon ;)</p><p>Admin<p>`,
+      })
+      .then(res => {
+        console.log(res);
+        this.updateUser(user);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  async decryptToken(request): Promise<any> {
+    const header = request.headers.authorization;
+    const userToken = header.slice(7);
+    const currentUser = this.jwtService.decode(userToken);
+    return currentUser;
+  }
+
+  createRandomPassword(): string {
+    let randomPassword = '';
+    const chars =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!?@&';
+    for (let i = 0; i < 7; i++) {
+      randomPassword += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return randomPassword;
   }
 }

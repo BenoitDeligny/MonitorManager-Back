@@ -19,8 +19,16 @@ export class UsersController {
   constructor(private usersService: UsersService) {}
 
   @Post()
-  createUser(@Body() user: User) {
+  async createUser(@Body() user: User) {
+    if (!user.password) {
+      user.password = await this.usersService.initializePassword(user);
+    }
     return this.usersService.createUser(user);
+  }
+
+  @Get('forgetPassword')
+  forgetPassword(@Request() req) {
+    return this.usersService.sendNewPassword(req);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -57,10 +65,5 @@ export class UsersController {
   @Delete(':id')
   remove(@Param('id') id: number) {
     return this.usersService.remove(id);
-  }
-
-  @Get('forgetPassword')
-  forgetPassword(@Request() req) {
-    return this.usersService.sendPassword(req);
   }
 }

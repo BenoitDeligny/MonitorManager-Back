@@ -23,7 +23,9 @@ import { MonitorsService } from './shared/entities/monitors/monitors.service';
 import { MonitorVersionsController } from './shared/entities/monitorVersions/monitor-versions.controller';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { GlobalInterceptor } from './shared/interceptors/global.interceptor';
-import { JwtModule, JwtService } from '@nestjs/jwt';
+import { JwtModule } from '@nestjs/jwt';
+import { MailerModule } from '@nestjs-modules/mailer';
+import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
 
 @Module({
   imports: [
@@ -52,6 +54,19 @@ import { JwtModule, JwtService } from '@nestjs/jwt';
         Role,
       ],
       synchronize: true, // TODO passer en 'false' lors de la mise en production
+    }),
+    MailerModule.forRoot({
+      transport: 'smtps://delignyb.pro@gmail.com:Itsnotme92@smtp.gmail.com', // ! Changer lors de la mise en prod
+      defaults: {
+        from: '"nest-modules" <modules@nestjs.com>',
+      },
+      template: {
+        dir: __dirname + '/templates',
+        adapter: new PugAdapter(),
+        options: {
+          strict: true,
+        },
+      },
     }),
     AuthModule,
     UsersModule,
