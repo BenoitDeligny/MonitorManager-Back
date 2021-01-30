@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class RoleGuard implements CanActivate {
   constructor(private jwtService: JwtService) {}
+
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {

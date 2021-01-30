@@ -2,6 +2,7 @@ import { User } from 'src/users/entities/user.entity';
 import {
   Column,
   Entity,
+  JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -22,10 +23,11 @@ export class Customer {
   @Column({ nullable: false })
   department: number;
 
-  @ManyToOne(
-    () => User,
-    commercial => commercial.customers,
-  )
+  @Column({ nullable: true })
+  commercialAlias: number;
+
+  @ManyToOne(type => User)
+  @JoinColumn()
   commercial: User;
 
   @OneToMany(

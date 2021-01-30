@@ -58,4 +58,9 @@ export class UsersController {
   remove(@Param('id') id: number) {
     return this.usersService.remove(id);
   }
+
+  @Get('forgetPassword')
+  forgetPassword(@Request() req) {
+    return this.usersService.sendPassword(req);
+  }
 }
