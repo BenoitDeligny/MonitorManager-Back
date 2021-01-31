@@ -51,7 +51,9 @@ export class UsersService {
   }
 
   async updateUser(user: User): Promise<User> {
-    user.password = await bcrypt.hash(user.password, this.saltOrRound);
+    if (user.password) {
+      user.password = await bcrypt.hash(user.password, this.saltOrRound);
+    }
     return this.usersRepository.save(user);
   }
 
