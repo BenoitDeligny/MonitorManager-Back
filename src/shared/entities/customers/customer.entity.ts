@@ -21,18 +21,33 @@ export class Customer {
   address: string;
 
   @Column({ nullable: false })
-  department: number;
+  city: string;
 
   @Column({ nullable: true })
-  commercialAlias: number;
+  department: number;
 
-  @ManyToOne(type => User)
+  @Column({ nullable: false })
+  email: string;
+
+  @Column({ nullable: false })
+  phone: string;
+
+  @Column({ nullable: true })
+  commercialId: number;
+
+  @ManyToOne(
+    () => User,
+    user => user.customers,
+  )
   @JoinColumn()
   commercial: User;
 
   @OneToMany(
     () => Monitor,
     monitor => monitor.owner,
+    {
+      eager: true,
+    },
   )
   monitors: Monitor[];
 }

@@ -26,8 +26,10 @@ export class UsersService {
         HttpStatus.CONFLICT,
       );
     } else {
-      const basicRole = await this.roleService.findById(3);
-      user.role = basicRole;
+      if (!user.role) {
+        const basicRole = await this.roleService.findById(3);
+        user.role = basicRole;
+      }
 
       user.password = await bcrypt.hash(user.password, this.saltOrRound);
       return this.usersRepository.save(user);
